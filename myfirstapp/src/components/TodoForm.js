@@ -10,19 +10,54 @@ class TodoForm extends Component {
           description: '',
           priority: 'low'
         };
+
+        //enlazar handelInput y handleSubmit
+        this.handelInput = this.handelInput.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
     }
+
+//metodo para el formulario
+    handelInput(e){
+      //console.log(e.target.value, e.target.name);  //saber que escribe, que imput lo escribe
+      const { value,  name} = e.target; //desctructurin permite hacer lo mismo que el console de arriba
+
+      //evento para que al momento de escribir los valores de title, resposible ..etc 
+      // ahora obtengan ese valor
+
+      this.setState({ //setState permite alterar los campos hasta ese momento
+        [name]: value
+
+      })
+
+      //console.log(this.state) //para mostrar como van cambiando los datos a medida que se escribe
+    
+
+    }
+
+    //crear un evento para manejar el evento submit del formulario
+    handleSubmit(e){
+      // el e -> ayuda a evitar refrescar la pagina
+
+      e.preventDefault();
+      //console.log(this.state)
+      this.props.onAddTodo(this.state)
+    
+      console.log('enviarr...')
+      
+    }
+
 
     render() {
         return (
           <div className="card">
-            <form onSubmit={this.handleSubmit} className="card-body">
+            <form  className="card-body" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <input
                   type="text"
                   name="title"
+                  onChange={this.handelInput}
                   className="form-control"
-                  value={this.state.title}
-                  onChange={this.handleInputChange}
                   placeholder="Title"
                   />
               </div>
@@ -31,9 +66,8 @@ class TodoForm extends Component {
                   type="text"
                   name="responsible"
                   className="form-control"
-                  value={this.state.responsible}
-                  onChange={this.handleInputChange}
                   placeholder="Responsible"
+                  onChange={this.handelInput}
                   />
               </div>
               <div className="form-group">
@@ -41,17 +75,15 @@ class TodoForm extends Component {
                   type="text"
                   name="description"
                   className="form-control"
-                  value={this.state.description}
-                  onChange={this.handleInputChange}
                   placeholder="Description"
+                  onChange={this.handelInput}
                   />
               </div>
               <div className="form-group">
                 <select
                     name="priority"
                     className="form-control"
-                    value={this.state.priority}
-                    onChange={this.handleInputChange}
+                    onChange={this.handelInput}
                   >
                   <option>low</option>
                   <option>medium</option>
